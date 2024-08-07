@@ -165,9 +165,9 @@ def randgraph_connected(V, E, *, _1_indexed=True):
             a,b = b,a
         chosen[a][b] = weight[a]
         weight[a] -= 1
-    wrap = Wrapper(choices, (i for i in range(V)), weight)
+    wrap = Wrapper(choices, tuple(i for i in range(V)), weight)
     for _ in range(E-V+1):
-        v1 = wrap()
+        v1 = wrap()[0]
         temp = randrange(weight[v1])
         v2 = chosen[v1].get(temp, temp)
         chosen[v1][v2] = weight[v1]
