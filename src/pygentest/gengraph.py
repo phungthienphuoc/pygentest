@@ -116,11 +116,11 @@ def randtree_rooted(V, *, _1_indexed=True):
         raise ValueError("The number of vertices must be positive.")
     parent = [0]*(V-1)
     chosen = [int(_1_indexed)]
-    rest = randlist_uniqueint(V,1+_1_indexed, V-1+_1_indexed)
+    rest = randlist_uniqueint(V-1,1+_1_indexed, V-1+_1_indexed)
     for _ in range(V-1):
         node = rest.pop()
-        par = choices(chosen)
-        parent[node] = par
+        par = choices(chosen)[0]
+        parent[node-_1_indexed-1] = par
         chosen.append(node)
     return parent
 
@@ -134,11 +134,10 @@ def randtree(V, *, _1_indexed=True):
     if V <= 0:
         raise ValueError("The number of vertices must be positive.")
     rooted = randtree_rooted(V, _1_indexed=_1_indexed)
-    swap = randlist_uniqueint(V,_1_indexed,V-1+_1_indexed)
+    swap = randlist_uniqueint(V-1,_1_indexed+1,V-1+_1_indexed)
     edges = []
-    for i in range(V-1):
-        v1 = swap[i]+_1_indexed
-        v2 = rooted[i]
+    for v1 in swap:
+        v2 = rooted[v1-1-_1_indexed]
         edges.append((v1,v2) if randrange(2) else (v2,v1))
     return edges
 
