@@ -1,4 +1,4 @@
-from gensequence import randlist_uniqueint
+from .gensequence import randlist_uniqueint
 from random import shuffle, choices, randint
 
 def randperm(n, k):

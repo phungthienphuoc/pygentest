@@ -1,6 +1,6 @@
 from random import choices, randrange, random, shuffle
-from wrapper import Wrapper
-from gensequence import randlist_uniqueint
+from .wrapper import Wrapper
+from .gensequence import randlist_uniqueint
 
 def __randgraph_undirected(V, E, _1_indexed, loop):
     edges = []
