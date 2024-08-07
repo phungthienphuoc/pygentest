@@ -4,3 +4,4 @@
 /src/pygentest.egg-info
 /build/
 /testing/
+/src/pygentest/__pycache__/

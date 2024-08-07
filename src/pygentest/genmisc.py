@@ -1,4 +1,4 @@
-from .gensequence import randlist_uniqueint
+from gensequence import randlist_uniqueint
 from random import shuffle, choices, randint
 
 def randperm(n, k):
@@ -66,7 +66,7 @@ def __coordinate(n, axis, cmin, cmax):
         weight[2] = 0
     if sum(weight) == 0:
         raise ValueError(f"Range of {axis}-coordinate is not large enough for polygon.")
-    zero = choices((0,1,2),weight)
+    zero = choices((0,1,2),weight)[0]
     val = randlist_uniqueint(n-zero, cmin, cmax, sorted=True)
     pos,neg = [val[0]],[val[0]]
     for i in range(1,len(val)-1):
@@ -113,7 +113,7 @@ def randpolygon_lattice(n, minX, maxX, minY, maxY):
     vecx,rangeX = __coordinate(n, 'x', minX, maxX)
     vecy,rangeY = __coordinate(n, 'y', minY, maxY)
     edges = [(x,y) for x,y in zip(vecx,vecy)]
-    edges.sort(key=lambda x,y: (__quadrant(x,y), y/x))
+    edges.sort(key=lambda x: (__quadrant(*x),x[1]/x[0]))
     idx = bound = 0
     while idx < n and __quadrant(*edges[idx]) == 1:
         bound += edges[idx][1]
