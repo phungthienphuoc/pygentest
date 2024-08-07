@@ -4,6 +4,14 @@
 This is a Python library supporting several data generators. They can be use for test generation in Competitive Programming, or exams, etc.
 </p>
 
+<p>
+This project has not been released yet, and still in progess. If you want to try and test this library, you can install it by using pip install:
+
+```
+pip install -i https://test.pypi.org/simple/ pygentest
+```
+</p>
+
 <div>
 <h3>Here is the list of supported function:</h3>
 <ul>
