@@ -127,7 +127,7 @@
             </li>
             <li>
                 <a href=#4-4>
-                    <code>randpolygon</code>
+                    <code>randpolygon_lattice</code>
                 </a>
             </li>
         </ol>

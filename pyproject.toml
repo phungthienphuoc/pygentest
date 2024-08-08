@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygentest"
-version = "0.0.7"
+version = "0.0.8"
 authors = [
   { name="Thien-Phuoc Phung", email="phungthienphuoctthnnh@gmail.com" },
 ]
@@ -16,7 +16,13 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
 ]
+keywords = [
+  "Python test", "generator", "testing",
+  "competitive programming", "test generation",
+  "pygentest", "test library"
+]
 
 [project.urls]
-Homepage = "https://github.com/phungthienphuoc/py-gentest"
+Repository = "https://github.com/phungthienphuoc/py-gentest"
 Issues = "https://github.com/phungthienphuoc/py-gentest/issues"
+Documentation = "https://github.com/phungthienphuoc/pygentest/blob/main/Documentation.md"
