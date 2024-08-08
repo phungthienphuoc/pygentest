@@ -1,18 +1,19 @@
 from random import choices, randrange, random, shuffle
+from collections import defaultdict
 from .wrapper import Wrapper
 from .gensequence import randlist_uniqueint
 
 def __randgraph_undirected(V, E, _1_indexed, loop):
     edges = []
     weight = [i+loop for i in range(V)]
-    wrap = Wrapper(choices, (i for i in range(V)), weight)
-    chosen = [{} for _ in range(V)]
+    wrap = Wrapper(choices, tuple(i for i in range(V)), weight)
+    chosen = defaultdict(dict)
     for _ in range(E):
-        v1 = wrap()
+        v1 = wrap()[0]
         temp = randrange(weight[v1])
-        v2 = chosen[v1-1].get(temp, temp)
-        chosen[v1][v2] = weight[v1]
         weight[v1] -= 1
+        v2 = chosen[v1].get(temp, temp)
+        chosen[v1][temp] = chosen[v1].get(weight[v1],weight[v1])
         v1 += _1_indexed
         v2 += _1_indexed
         edges.append((v1,v2) if randrange(2) else (v2,v1))
@@ -91,13 +92,9 @@ def randmultigraph(V, E, /, loop=False,  *, _1_indexed=True):
     edges = []
     weight = [i+loop for i in range(V)]
     wrap = Wrapper(choices, (i for i in range(V)), weight)
-    chosen = [{} for _ in range(V)]
     for _ in range(E):
-        v1 = wrap()
-        temp = randrange(weight[v1])
-        v2 = chosen[v1].get(temp, temp)
-        chosen[v1][v2] = weight[v1]
-        weight[v1] -= 1
+        v1 = wrap()[0]
+        v2 = randrange(weight[v1])
         v1 += _1_indexed
         v2 += _1_indexed
         edges.append((v1,v2) if randrange(2) else (v2,v1))
@@ -116,11 +113,11 @@ def randtree_rooted(V, *, _1_indexed=True):
         raise ValueError("The number of vertices must be positive.")
     parent = [0]*(V-1)
     chosen = [int(_1_indexed)]
-    rest = randlist_uniqueint(V,1+_1_indexed, V-1+_1_indexed)
+    rest = randlist_uniqueint(V-1,1+_1_indexed, V-1+_1_indexed)
     for _ in range(V-1):
         node = rest.pop()
-        par = choices(chosen)
-        parent[node] = par
+        par = choices(chosen)[0]
+        parent[node-_1_indexed-1] = par
         chosen.append(node)
     return parent
 
@@ -134,11 +131,10 @@ def randtree(V, *, _1_indexed=True):
     if V <= 0:
         raise ValueError("The number of vertices must be positive.")
     rooted = randtree_rooted(V, _1_indexed=_1_indexed)
-    swap = randlist_uniqueint(V,_1_indexed,V-1+_1_indexed)
+    swap = randlist_uniqueint(V-1,_1_indexed+1,V-1+_1_indexed)
     edges = []
-    for i in range(V-1):
-        v1 = swap[i]+_1_indexed
-        v2 = rooted[i]
+    for v1 in swap:
+        v2 = rooted[v1-1-_1_indexed]
         edges.append((v1,v2) if randrange(2) else (v2,v1))
     return edges
 
@@ -156,23 +152,31 @@ def randgraph_connected(V, E, *, _1_indexed=True):
         raise ValueError("The number of edges must be non negative.")
     if E < V-1:
         raise ValueError("The number of edges is not enough to form a connected graph.")
-    edges = randtree(V, _1_indexed=False)
-    weight = [i for i in range(V)]
-    chosen = [{} for _ in range(V)]
+    if E > V*(V-1)//2:
+        raise ValueError("The number of edges exceeds the maximum value.")
+    tree = randtree_rooted(V, _1_indexed=False)
+    edges = []
+    adj=defaultdict(list)
     for i in range(V-1):
-        a,b = edges[i]
-        edges[i] = (a+_1_indexed,b+_1_indexed)
-        if a < b:
-            a,b = b,a
-        chosen[a][b] = weight[a]
-        weight[a] -= 1
-    wrap = Wrapper(choices, (i for i in range(V)), weight)
+        a,b = i+1,tree[i]
+        if a<b:
+            a,b=b,a
+        adj[a].append(b)
+        edges.append((a+_1_indexed,b+_1_indexed))
+    weight = [i for i in range(V)]
+    chosen = defaultdict(dict)
+    for v1 in adj:
+        adj[v1].sort(reverse=True)
+        for v2 in adj[v1]:
+            weight[v1] -= 1
+            chosen[v1][v2] = chosen[v1].get(weight[v1],weight[v1])
+    wrap = Wrapper(choices, tuple(i for i in range(V)), weight)
     for _ in range(E-V+1):
-        v1 = wrap()
+        v1 = wrap()[0]
         temp = randrange(weight[v1])
         v2 = chosen[v1].get(temp, temp)
-        chosen[v1][v2] = weight[v1]
         weight[v1] -= 1
+        chosen[v1][temp] = chosen[v1].get(weight[v1],weight[v1])
         v1 += _1_indexed
         v2 += _1_indexed
         edges.append((v1,v2) if randrange(2) else (v2,v1))

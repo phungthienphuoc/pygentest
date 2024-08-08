@@ -88,11 +88,11 @@ def __coordinate(n, axis, cmin, cmax):
 def __quadrant(x,y):
     if x >= 0 and y >= 0:
         return 1
-    if x >= 0:
-        return 3
+    if x > 0:
+        return 4
     if y >= 0:
         return 2
-    return 4
+    return 3
 
 def randpolygon_lattice(n, minX, maxX, minY, maxY):
     """Get a random lattice polygon with `n` vertices.
@@ -112,8 +112,22 @@ def randpolygon_lattice(n, minX, maxX, minY, maxY):
         raise ValueError("maxY must be greater than minY")
     vecx,rangeX = __coordinate(n, 'x', minX, maxX)
     vecy,rangeY = __coordinate(n, 'y', minY, maxY)
-    edges = [(x,y) for x,y in zip(vecx,vecy)]
-    edges.sort(key=lambda x: (__quadrant(*x),x[1]/x[0]))
+    while True:
+        edges = [(x,y) for x,y in zip(vecx,vecy)]
+        edges.sort(key=lambda x: (__quadrant(*x),x[1]/x[0] if x[0] else float('inf')))
+        for i in range(len(edges)):
+            x1,y1 = edges[i-1]
+            x2,y2 = edges[i]
+            if x1==x2 and y1==y2:
+                break
+            if x1==x2==0:
+                x1,y1=y1,x1
+                x2,y2=y2,x2
+            if y1*x2 == x1*y2:
+                break
+        else:
+            break
+        shuffle(vecx)
     idx = bound = 0
     while idx < n and __quadrant(*edges[idx]) == 1:
         bound += edges[idx][1]
