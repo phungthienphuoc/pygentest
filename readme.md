@@ -25,10 +25,17 @@ pip install pygentest
 
 <h2> Other information </h2>
 
-Currently, documentation is written for every function and class in <code>pygentest</code>. You can access it by using Python built-in <code>help</code> function. You can also read the documentation <a href=#Documentation>here</a>.
+Currently, documentation is written for every function and class in <code>pygentest</code>. You can access it by using Python built-in <code>help</code> function. You can also read the documentation <a href="https://github.com/phungthienphuoc/pygentest/blob/main/Documentation.md">here</a>.
 
 Detailed instruction has not been written yet, and it will be completed soon.
 
 In the future, I will write a document that analyzes intuition, complexity, and efficiency of each generator.
 
 The inspiration of this personal project comes from my task as an Algorithm Collaborator in <a href="https://www.facebook.com/code.mely/">Code Mely</a>: prepare problems for a contest and generate tests for each problem. I decided to write a Python library that could help generate complex structures, instead of rewrite the code many times.
+
+<h2> Resources </h2>
+
+- [PyPI](https://pypi.org/project/pygentest/)
+- [Github](https://github.com/phungthienphuoc/pygentest)
+- [Documentation](https://github.com/phungthienphuoc/pygentest/blob/main/Documentation.md)
+- [Issue Tracker](https://github.com/phungthienphuoc/pygentest/issues)
