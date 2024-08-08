@@ -31,4 +31,4 @@ Detailed instruction has not been written yet, and it will be completed soon.
 
 In the future, I will write a document that analyzes intuition, complexity, and efficiency of each generator.
 
-The inspiration of this personal project comes from my task as an Algorithm Collaborator in <a href="">Code Mely</a>: prepare problems for a contest and generate tests for each problem. I decided to write a Python library that could help generate complex structures, instead of rewrite the code many times.
+The inspiration of this personal project comes from my task as an Algorithm Collaborator in <a href="https://www.facebook.com/code.mely/">Code Mely</a>: prepare problems for a contest and generate tests for each problem. I decided to write a Python library that could help generate complex structures, instead of rewrite the code many times.
