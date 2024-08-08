@@ -34,12 +34,7 @@ def randlist_uniqueint(size, a, b, sorted=False, reverse=False):
     for _ in range(size):
         val = randint(a, b)
         res.append(hmap.get(val,val))
-        if b in hmap:
-            newval = hmap[b]
-            del hmap[b]
-        else:
-            newval = b
-        hmap[val] = newval
+        hmap[val] = hmap.get(b,b)
         b -= 1
     if sorted:
         res.sort(reverse=reverse)
